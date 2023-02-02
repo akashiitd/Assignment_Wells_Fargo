@@ -26,9 +26,9 @@ df_sales_agg =df_agg.reset_index()
 print(df_sales_agg.head())
 options = list(df_sales_agg['REST_KEY'].unique())
 
-st.sidebar.title("Resturant Insights")
-selected_option = st.sidebar.selectbox('Resturant ID', options)
-st.write("Resturant ID : ", selected_option)
+st.sidebar.title("Restaurant Insights")
+selected_option = st.sidebar.selectbox('Restaurant ID', options)
+st.write("Restaurant ID : ", selected_option)
 # Create a dropdown list
 # selected_option = st.selectbox('Resturant ID', options)
 
@@ -49,7 +49,7 @@ if selected_option :
         line=dict(color='yellow', width=2, dash='dash')
             )
         ])
-st.markdown(''' The yellow is the mean line of the sale of a particular Resturant ''')
+st.markdown(''' The yellow is the mean line of the sale of a particular Restaurant ''')
     # fig.add_annotation(
     #                     x=len(temp['Reporting Day'])-1, y=mean_temp,
     #                     text=f"Mean: {mean_temp:.2f}",
@@ -70,11 +70,11 @@ st.markdown(''' The yellow is the mean line of the sale of a particular Resturan
 # Display the selected option
 st.plotly_chart(fig)
 
-fig_group = px.line(df_sales_agg,x = 'Reporting Day', y ='Daypart Sales $', color = 'REST_KEY', title= 'Resturant Sales Comparison')
+fig_group = px.line(df_sales_agg,x = 'Reporting Day', y ='Daypart Sales $', color = 'REST_KEY', title= 'Restaurant Sales Comparison')
 st.plotly_chart(fig_group)
 
 df_sales_dayparts['REST_KEY'] = "R"+"_"+df_sales_dayparts['REST_KEY'].astype('str')
-fig_box_plot_sales_dayparts = px.box(df_sales_dayparts, x ='REST_KEY', y = 'Daypart Sales $', color='REST_KEY', title = 'Distribution of Sales in Resturant')
+fig_box_plot_sales_dayparts = px.box(df_sales_dayparts, x ='REST_KEY', y = 'Daypart Sales $', color='REST_KEY', title = 'Distribution of Sales in Restaurant')
 st.plotly_chart(fig_box_plot_sales_dayparts)
 
 ### Aggerate sales of all resturant
@@ -85,7 +85,7 @@ agg_sales_by_resturant = agg_sales_by_resturant.reset_index()
 
 
 fig_pie_chart = px.pie(agg_sales_by_resturant, values = 'Daypart Sales $',names = 'REST_KEY'
-                       ,title = 'Total Sales in USD for all resturant')
+                       ,title = 'Total Sales in USD for all restaurant')
 st.plotly_chart(fig_pie_chart)
 
 agg_sales_daypart =df_sales_dayparts.groupby(['REST_KEY', 'Daypart Name'])['Daypart Sales $'].sum()
@@ -95,7 +95,7 @@ agg_sales_daypart['REST_KEY'] = "R"+"_"+agg_sales_daypart['REST_KEY'].astype('st
 print(agg_sales_daypart.head())
 fig_agg_sales_daypart = px.histogram(agg_sales_daypart, x="REST_KEY", y="Daypart Sales $",
              color='Daypart Name', barmode='group', text_auto = True,
-             height=400, title = "Total sales in USD for all day along with all resturant")
+             height=400, title = "Total sales in USD for all day along with all restaurant")
 
 st.plotly_chart(fig_agg_sales_daypart)
 
@@ -125,7 +125,7 @@ demography_household_count['REST_KEY'] ="R"+"_"+demography_household_count['REST
 fig_pie_chart_household = px.bar(demography_household_count, x = 'REST_KEY',y  = 'HOUSEHLDSC', color = 'HOUSEHLDSC', title = 'Household Count'
                        )
 st.plotly_chart(fig_pie_chart_household)
-st.text('''we can see only one resturant area has urban population and it is counting to
+st.text('''we can see only one restaurant area has urban population and it is counting to
         most of the sales even it household count is less''')
 st.write(df_demography[['REST_KEY','Soc-U1','Soc-U2']])
 
